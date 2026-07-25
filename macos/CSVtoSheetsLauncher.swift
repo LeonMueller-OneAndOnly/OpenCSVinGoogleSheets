@@ -70,34 +70,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showProgress(for filenames: [String]) {
         let window = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 408, height: 194),
-            styleMask: [.titled],
+            contentRect: NSRect(x: 0, y: 0, width: 338, height: 138),
+            styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false
         )
         window.title = "CSVtoSheets"
         window.isReleasedWhenClosed = false
-        window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = true
-        window.isMovableByWindowBackground = true
+        window.level = .floating
         window.backgroundColor = .clear
-        window.standardWindowButton(.closeButton)?.isHidden = true
-        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-        window.standardWindowButton(.zoomButton)?.isHidden = true
+        window.hasShadow = true
+        window.collectionBehavior = [.transient, .ignoresCycle]
 
         let visualEffect = NSVisualEffectView()
-        visualEffect.material = .hudWindow
-        visualEffect.blendingMode = .behindWindow
+        visualEffect.material = .popover
+        visualEffect.blendingMode = .withinWindow
         visualEffect.state = .active
+        visualEffect.wantsLayer = true
+        visualEffect.layer?.cornerRadius = 10
+        visualEffect.layer?.masksToBounds = true
 
         let icon = NSImageView()
         icon.image = NSImage(systemSymbolName: "tablecells", accessibilityDescription: nil)
         icon.contentTintColor = .systemBlue
-        icon.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 32, weight: .medium)
+        icon.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 25, weight: .medium)
         icon.setContentHuggingPriority(.required, for: .horizontal)
 
         let title = NSTextField(labelWithString: "Google Sheet wird erstellt")
-        title.font = .systemFont(ofSize: 17, weight: .semibold)
+        title.font = .systemFont(ofSize: 15, weight: .semibold)
 
         let fileList = filenames.map { URL(fileURLWithPath: $0).lastPathComponent }.joined(separator: ", ")
         let detail = NSTextField(wrappingLabelWithString: fileList)
@@ -107,11 +107,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let spinner = NSProgressIndicator()
         spinner.style = .spinning
-        spinner.controlSize = .small
+        spinner.controlSize = .mini
         spinner.startAnimation(nil)
 
-        let status = NSTextField(labelWithString: "Upload in Google Drive \u{00b7} Ordner Sheets")
-        status.font = .systemFont(ofSize: 12, weight: .medium)
+        let status = NSTextField(labelWithString: "Upload in den Ordner Sheets")
+        status.font = .systemFont(ofSize: 11, weight: .medium)
         status.textColor = .secondaryLabelColor
 
         let copy = NSStackView(views: [title, detail])
@@ -122,7 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let heading = NSStackView(views: [icon, copy])
         heading.orientation = .horizontal
         heading.alignment = .centerY
-        heading.spacing = 14
+        heading.spacing = 10
 
         let activity = NSStackView(views: [spinner, status])
         activity.orientation = .horizontal
@@ -132,15 +132,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let stack = NSStackView(views: [heading, activity])
         stack.orientation = .vertical
         stack.alignment = .leading
-        stack.spacing = 20
+        stack.spacing = 14
         stack.translatesAutoresizingMaskIntoConstraints = false
 
         visualEffect.addSubview(stack)
         NSLayoutConstraint.activate([
-            icon.widthAnchor.constraint(equalToConstant: 38),
-            icon.heightAnchor.constraint(equalToConstant: 38),
-            stack.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor, constant: 28),
-            stack.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor, constant: -28),
+            icon.widthAnchor.constraint(equalToConstant: 30),
+            icon.heightAnchor.constraint(equalToConstant: 30),
+            stack.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor, constant: -20),
             stack.centerYAnchor.constraint(equalTo: visualEffect.centerYAnchor),
         ])
         window.contentView = visualEffect
