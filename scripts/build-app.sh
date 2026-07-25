@@ -7,7 +7,7 @@ app="$root/dist/CSVtoSheets.app"
 rm -rf "$app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$root/bin/CSVtoSheets" "$app/Contents/MacOS/CSVtoSheets-core"
-xcrun swiftc -parse-as-library "$root/macos/CSVtoSheetsLauncher.swift" -o "$app/Contents/MacOS/CSVtoSheets"
+xcrun swiftc "$root/macos/CSVtoSheetsLauncher.swift" -o "$app/Contents/MacOS/CSVtoSheets"
 cp "$root/macos/Info.plist" "$app/Contents/Info.plist"
 
 if [[ -f "$root/credentials.json" ]]; then

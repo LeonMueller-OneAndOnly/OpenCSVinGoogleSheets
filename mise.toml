@@ -18,3 +18,8 @@ run = "scripts/build-app.sh"
 description = "Test the bundled Go application with the included test CSV"
 depends = ["app"]
 run = "\"$PWD/dist/CSVtoSheets.app/Contents/MacOS/CSVtoSheets-core\" \"$PWD/testdata/umsatz-test.csv\""
+
+[tasks.install-app]
+description = "Replace the installed CSVtoSheets application in /Applications"
+depends = ["app"]
+run = "rm -rf /Applications/CSVtoSheets.app && cp -R \"$PWD/dist/CSVtoSheets.app\" /Applications/"

@@ -13,42 +13,9 @@
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.0.0</string>
+  <string>1.0.4</string>
   <key>CFBundleVersion</key>
-  <string>2</string>
-  <key>UTExportedTypeDeclarations</key>
-  <array>
-    <dict>
-      <key>UTTypeConformsTo</key>
-      <array><string>public.text</string></array>
-      <key>UTTypeDescription</key>
-      <string>CSV-Datei</string>
-      <key>UTTypeIdentifier</key>
-      <string>local.csvtosheets.csv</string>
-      <key>UTTypeTagSpecification</key>
-      <dict>
-        <key>public.filename-extension</key>
-        <array><string>csv</string></array>
-        <key>public.mime-type</key>
-        <string>text/csv</string>
-      </dict>
-    </dict>
-    <dict>
-      <key>UTTypeConformsTo</key>
-      <array><string>public.text</string></array>
-      <key>UTTypeDescription</key>
-      <string>TSV-Datei</string>
-      <key>UTTypeIdentifier</key>
-      <string>local.csvtosheets.tsv</string>
-      <key>UTTypeTagSpecification</key>
-      <dict>
-        <key>public.filename-extension</key>
-        <array><string>tsv</string></array>
-        <key>public.mime-type</key>
-        <string>text/tab-separated-values</string>
-      </dict>
-    </dict>
-  </array>
+  <string>6</string>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
@@ -57,7 +24,7 @@
       <key>CFBundleTypeExtensions</key>
       <array><string>csv</string></array>
       <key>LSItemContentTypes</key>
-      <array><string>local.csvtosheets.csv</string></array>
+      <array><string>public.comma-separated-values-text</string></array>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
     </dict>
@@ -67,7 +34,7 @@
       <key>CFBundleTypeExtensions</key>
       <array><string>tsv</string></array>
       <key>LSItemContentTypes</key>
-      <array><string>local.csvtosheets.tsv</string></array>
+      <array><string>public.tab-separated-values-text</string></array>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
     </dict>
