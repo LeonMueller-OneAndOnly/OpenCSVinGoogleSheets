@@ -15,6 +15,6 @@ depends = ["build"]
 run = "scripts/build-app.sh"
 
 [tasks.test-app]
-description = "Open the macOS app with the included test CSV"
+description = "Test the bundled Go application with the included test CSV"
 depends = ["app"]
-run = "open -a \"$PWD/dist/CSVtoSheets.app\" \"$PWD/testdata/umsatz-test.csv\""
+run = "\"$PWD/dist/CSVtoSheets.app/Contents/MacOS/CSVtoSheets-core\" \"$PWD/testdata/umsatz-test.csv\""
