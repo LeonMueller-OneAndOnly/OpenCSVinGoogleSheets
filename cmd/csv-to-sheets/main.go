@@ -22,10 +22,12 @@ import (
 )
 
 const (
-	appName          = "CSVtoSheets"
-	credentialsEnv   = "CSV_TO_SHEETS_CREDENTIALS"
-	credentialsName  = "credentials.json"
-	googleSheetsMIME = "application/vnd.google-apps.spreadsheet"
+	appName           = "CSVtoSheets"
+	credentialsEnv    = "CSV_TO_SHEETS_CREDENTIALS"
+	credentialsName   = "credentials.json"
+	googleSheetsMIME  = "application/vnd.google-apps.spreadsheet"
+	googleFolderMIME  = "application/vnd.google-apps.folder"
+	defaultFolderName = "Sheets"
 )
 
 func main() {
@@ -59,10 +61,14 @@ func run(ctx context.Context, paths []string, output io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("Google Drive konnte nicht initialisiert werden: %w", err)
 	}
+	folderID, err := ensureDefaultFolder(service)
+	if err != nil {
+		return err
+	}
 
 	for _, path := range paths {
 		fmt.Fprintf(output, "Lade %s hoch ...\n", filepath.Base(path))
-		url, err := uploadAsSpreadsheet(service, path)
+		url, err := uploadAsSpreadsheet(service, path, folderID)
 		if err != nil {
 			return err
 		}
@@ -222,7 +228,24 @@ func authorize(config *oauth2.Config) (*oauth2.Token, error) {
 	return token, nil
 }
 
-func uploadAsSpreadsheet(service *drive.Service, path string) (string, error) {
+func ensureDefaultFolder(service *drive.Service) (string, error) {
+	query := fmt.Sprintf("name = '%s' and mimeType = '%s' and trashed = false", defaultFolderName, googleFolderMIME)
+	result, err := service.Files.List().Q(query).Spaces("drive").Fields("files(id)").PageSize(1).Do()
+	if err != nil {
+		return "", fmt.Errorf("Google-Drive-Ordner konnte nicht gesucht werden: %w", err)
+	}
+	if len(result.Files) > 0 {
+		return result.Files[0].Id, nil
+	}
+
+	folder, err := service.Files.Create(&drive.File{Name: defaultFolderName, MimeType: googleFolderMIME}).Fields("id").Do()
+	if err != nil {
+		return "", fmt.Errorf("Google-Drive-Ordner %q konnte nicht erstellt werden: %w", defaultFolderName, err)
+	}
+	return folder.Id, nil
+}
+
+func uploadAsSpreadsheet(service *drive.Service, path, folderID string) (string, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return "", fmt.Errorf("%s konnte nicht gelesen werden: %w", filepath.Base(path), err)
@@ -230,7 +253,7 @@ func uploadAsSpreadsheet(service *drive.Service, path string) (string, error) {
 	defer file.Close()
 
 	name := strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
-	created, err := service.Files.Create(&drive.File{Name: name, MimeType: googleSheetsMIME}).
+	created, err := service.Files.Create(&drive.File{Name: name, MimeType: googleSheetsMIME, Parents: []string{folderID}}).
 		Media(file, googleapi.ContentType(googleContentType(path))).
 		Fields("id,webViewLink").
 		Do()

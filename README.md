@@ -14,7 +14,7 @@ Eine lokale macOS-App, die CSV- und TSV-Dateien als neue Google-Sheets-Dateien h
 2. Einen OAuth-Client vom Typ **Desktop-App** erstellen.
 3. Die heruntergeladene Client-Datei als `credentials.json` im Projektstamm ablegen. Sie wird nicht eingecheckt.
 
-Die Anwendung fordert nur den Scope `https://www.googleapis.com/auth/drive.file` an. Sie kann damit nur Dateien verwalten, die sie selbst erstellt oder die ueber sie geoeffnet wurden.
+Die Anwendung fordert nur den Scope `https://www.googleapis.com/auth/drive.file` an. Sie kann damit nur Dateien verwalten, die sie selbst erstellt oder die ueber sie geoeffnet wurden. Beim ersten Upload erstellt sie im Google Drive einen Ordner `Sheets`; alle erzeugten Tabellen werden dort abgelegt.
 
 ## Entwicklung
 
@@ -45,4 +45,4 @@ Die nicht signierte private App muss beim ersten Oeffnen gegebenenfalls mit Rech
 
 ## Konfiguration
 
-Mit `CSV_TO_SHEETS_CREDENTIALS=/sicherer/pfad/credentials.json` kann ein anderer Ort fuer die OAuth-Zugangsdaten verwendet werden. Die lokale CSV-Datei wird nie geloescht und jede Ausfuehrung erstellt ein neues Google Sheet.
+Mit `CSV_TO_SHEETS_CREDENTIALS=/sicherer/pfad/credentials.json` kann ein anderer Ort fuer die OAuth-Zugangsdaten verwendet werden. Die lokale CSV-Datei wird nie geloescht und jede Ausfuehrung erstellt ein neues Google Sheet im Google-Drive-Ordner `Sheets`.
