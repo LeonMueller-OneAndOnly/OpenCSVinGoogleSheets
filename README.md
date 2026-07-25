@@ -1,6 +1,6 @@
 # CSVtoSheets
 
-Eine lokale macOS-App, die CSV- und TSV-Dateien als neue Google-Sheets-Dateien hochlaedt und das Ergebnis im Standardbrowser oeffnet.
+Eine lokale macOS-App, die CSV-, TSV- und XLSX-Dateien als neue Google-Sheets-Dateien hochlaedt und das Ergebnis im Standardbrowser oeffnet.
 
 ## Voraussetzungen
 
@@ -26,7 +26,7 @@ mise run build
 
 Beim ersten Lauf oeffnet sich die Google-Anmeldung. Das Token wird mit Berechtigung `0600` unter `~/Library/Application Support/CSVtoSheets/token.json` gespeichert. Es enthaelt keine CSV-Daten.
 
-Mehrere Dateien werden nacheinander verarbeitet:
+Mehrere CSV-, TSV- oder XLSX-Dateien werden nacheinander verarbeitet:
 
 ```sh
 ./bin/CSVtoSheets datei1.csv datei2.tsv
@@ -39,7 +39,7 @@ mise run app
 open dist
 ```
 
-Das Ergebnis liegt unter `dist/CSVtoSheets.app`. `credentials.json` wird beim Bauen in das App-Bundle aufgenommen, falls sie im Projektstamm liegt. Die App deklariert `.csv` und `.tsv` als Dokumenttypen. Ein nativer macOS-Launcher nimmt Finder-Dateiuebergaben entgegen und ruft die Go-Anwendung mit den Dateipfaden auf. Nach dem Verschieben in `Programme` kann sie im Finder ueber **Informationen > Oeffnen mit > Alle aendern** als Standard-App zugeordnet werden.
+Das Ergebnis liegt unter `dist/CSVtoSheets.app`. `credentials.json` wird beim Bauen in das App-Bundle aufgenommen, falls sie im Projektstamm liegt. Die App deklariert `.csv`, `.tsv` und `.xlsx` als Dokumenttypen. Ein nativer macOS-Launcher nimmt Finder-Dateiuebergaben entgegen und ruft die Go-Anwendung mit den Dateipfaden auf. Nach dem Verschieben in `Programme` kann sie im Finder ueber **Informationen > Oeffnen mit > Alle aendern** als Standard-App zugeordnet werden.
 
 Die nicht signierte private App muss beim ersten Oeffnen gegebenenfalls mit Rechtsklick > **Oeffnen** bestaetigt werden.
 

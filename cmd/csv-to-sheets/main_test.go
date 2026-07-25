@@ -9,6 +9,9 @@ func TestGoogleContentType(t *testing.T) {
 	if got := googleContentType("report.csv"); got != "text/csv" {
 		t.Fatalf("googleContentType CSV = %q", got)
 	}
+	if got := googleContentType("report.xlsx"); got != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" {
+		t.Fatalf("googleContentType XLSX = %q", got)
+	}
 }
 
 func TestEscapeAppleScript(t *testing.T) {

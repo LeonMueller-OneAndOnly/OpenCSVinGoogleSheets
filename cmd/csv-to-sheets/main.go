@@ -39,7 +39,7 @@ func main() {
 
 func run(ctx context.Context, paths []string, output io.Writer) error {
 	if len(paths) == 0 {
-		return errors.New("keine CSV- oder TSV-Datei angegeben")
+		return errors.New("keine CSV-, TSV- oder XLSX-Datei angegeben")
 	}
 
 	for _, path := range paths {
@@ -87,14 +87,14 @@ func validateInput(path string) error {
 		return fmt.Errorf("Datei kann nicht geöffnet werden (%s): %w", path, err)
 	}
 	if info.IsDir() {
-		return fmt.Errorf("%s ist ein Ordner, keine CSV-Datei", path)
+		return fmt.Errorf("%s ist ein Ordner, keine unterstützte Datei", path)
 	}
 	if info.Size() == 0 {
 		return fmt.Errorf("%s ist leer", filepath.Base(path))
 	}
 	extension := strings.ToLower(filepath.Ext(path))
-	if extension != ".csv" && extension != ".tsv" {
-		return fmt.Errorf("%s wird nicht unterstützt; erlaubt sind .csv und .tsv", filepath.Base(path))
+	if extension != ".csv" && extension != ".tsv" && extension != ".xlsx" {
+		return fmt.Errorf("%s wird nicht unterstützt; erlaubt sind .csv, .tsv und .xlsx", filepath.Base(path))
 	}
 	return nil
 }
@@ -269,6 +269,9 @@ func uploadAsSpreadsheet(service *drive.Service, path, folderID string) (string,
 func googleContentType(path string) string {
 	if strings.EqualFold(filepath.Ext(path), ".tsv") {
 		return "text/tab-separated-values"
+	}
+	if strings.EqualFold(filepath.Ext(path), ".xlsx") {
+		return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 	}
 	return "text/csv"
 }

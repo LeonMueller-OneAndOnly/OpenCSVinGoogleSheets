@@ -13,9 +13,9 @@
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.1.2</string>
+  <string>1.2.0</string>
   <key>CFBundleVersion</key>
-  <string>9</string>
+  <string>10</string>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
@@ -35,6 +35,16 @@
       <array><string>tsv</string></array>
       <key>LSItemContentTypes</key>
       <array><string>public.tab-separated-values-text</string></array>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>Excel-Datei</string>
+      <key>CFBundleTypeExtensions</key>
+      <array><string>xlsx</string></array>
+      <key>LSItemContentTypes</key>
+      <array><string>org.openxmlformats.spreadsheetml.sheet</string></array>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
     </dict>
