@@ -1,0 +1,20 @@
+[tools]
+go = "1.26"
+
+[tasks.build]
+description = "Build the CSVtoSheets command-line application"
+run = "go build -o bin/CSVtoSheets ./cmd/csv-to-sheets"
+
+[tasks.test]
+description = "Run the test suite"
+run = "go test ./..."
+
+[tasks.app]
+description = "Build a macOS application bundle"
+depends = ["build"]
+run = "scripts/build-app.sh"
+
+[tasks.test-app]
+description = "Open the macOS app with the included test CSV"
+depends = ["app"]
+run = "open -a \"$PWD/dist/CSVtoSheets.app\" \"$PWD/testdata/umsatz-test.csv\""
